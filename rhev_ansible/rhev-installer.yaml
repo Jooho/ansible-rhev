@@ -1,5 +1,12 @@
 - hosts: storages
   gather_facts: false
   roles:
-    - { role: rhev_storage }
-#    - { role: webserver-repos }
+    - { role: rhev_storage, tags: storage } 
+- hosts: managers
+  gather_facts: false
+  roles:
+    - { role: rhev_manager, tags: manager } 
+- hosts: hypervisors
+  gather_facts: false
+  roles:
+    - { role: rhev_hypervisor, tags: hypervisor } 
