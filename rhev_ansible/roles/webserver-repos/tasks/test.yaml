@@ -1,0 +1,7 @@
+ #Check if the set_facts value is passed from another playbook. 
+  - name: Print specific_text value
+    debug: msg="{{specific_text}}"
+    tags: register
+    when: specific_text is defined
+
+

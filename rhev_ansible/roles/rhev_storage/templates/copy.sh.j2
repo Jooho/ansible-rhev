@@ -1,0 +1,3 @@
+{% for item in __iso_files %}
+scp {{item}} root@{{hostvars[groups['storages'][0]].ansible_ssh_host}}:/root/
+{% endfor %}

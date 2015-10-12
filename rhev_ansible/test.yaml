@@ -1,0 +1,7 @@
+- hosts: storages
+  accelerate: true
+
+  tasks:
+
+  - name: copy 
+    copy: src=roles/rhev-storage/files/rhel-server-6.6-x86_64-150304.iso dest=/mnt/nfs/iso

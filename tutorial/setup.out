@@ -1,0 +1,243 @@
+centos7 | success >> {
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "10.211.55.8"
+        ], 
+        "ansible_all_ipv6_addresses": [
+            "fdb2:2c26:f4e4:0:21c:42ff:fe67:e40e", 
+            "fe80::21c:42ff:fe67:e40e"
+        ], 
+        "ansible_architecture": "x86_64", 
+        "ansible_bios_date": "10/26/2007", 
+        "ansible_bios_version": "8.0.18619.1001606", 
+        "ansible_cmdline": {
+            "BOOT_IMAGE": "/vmlinuz-3.10.0-229.el7.x86_64", 
+            "LANG": "ko_KR.UTF-8", 
+            "crashkernel": "auto", 
+            "quiet": true, 
+            "rd.lvm.lv": "centos/swap", 
+            "rhgb": true, 
+            "ro": true, 
+            "root": "/dev/mapper/centos-root"
+        }, 
+        "ansible_date_time": {
+            "date": "2015-09-28", 
+            "day": "28", 
+            "epoch": "1443408817", 
+            "hour": "11", 
+            "iso8601": "2015-09-28T02:53:37Z", 
+            "iso8601_micro": "2015-09-28T02:53:37.370882Z", 
+            "minute": "53", 
+            "month": "09", 
+            "second": "37", 
+            "time": "11:53:37", 
+            "tz": "KST", 
+            "tz_offset": "+0900", 
+            "weekday": "Monday", 
+            "year": "2015"
+        }, 
+        "ansible_default_ipv4": {
+            "address": "10.211.55.8", 
+            "alias": "enp0s5", 
+            "gateway": "10.211.55.1", 
+            "interface": "enp0s5", 
+            "macaddress": "00:1c:42:67:e4:0e", 
+            "mtu": 1500, 
+            "netmask": "255.255.255.0", 
+            "network": "10.211.55.0", 
+            "type": "ether"
+        }, 
+        "ansible_default_ipv6": {}, 
+        "ansible_devices": {
+            "sda": {
+                "holders": [], 
+                "host": "SATA controller: Intel Corporation 82801HR/HO/HH (ICH8R/DO/DH) 6 port SATA Controller [AHCI mode] (rev 02)", 
+                "model": "CentOS 7 Linux-0", 
+                "partitions": {
+                    "sda1": {
+                        "sectors": "1024000", 
+                        "sectorsize": 512, 
+                        "size": "500.00 MB", 
+                        "start": "2048"
+                    }, 
+                    "sda2": {
+                        "sectors": "133191680", 
+                        "sectorsize": 512, 
+                        "size": "63.51 GB", 
+                        "start": "1026048"
+                    }
+                }, 
+                "removable": "0", 
+                "rotational": "0", 
+                "scheduler_mode": "cfq", 
+                "sectors": "134217728", 
+                "sectorsize": "512", 
+                "size": "64.00 GB", 
+                "support_discard": "512", 
+                "vendor": "ATA"
+            }, 
+            "sr0": {
+                "holders": [], 
+                "host": "SATA controller: Intel Corporation 82801HR/HO/HH (ICH8R/DO/DH) 6 port SATA Controller [AHCI mode] (rev 02)", 
+                "model": "Virtual DVD-ROM", 
+                "partitions": {}, 
+                "removable": "1", 
+                "rotational": "1", 
+                "scheduler_mode": "cfq", 
+                "sectors": "2097151", 
+                "sectorsize": "512", 
+                "size": "1024.00 MB", 
+                "support_discard": "0", 
+                "vendor": null
+            }
+        }, 
+        "ansible_distribution": "CentOS", 
+        "ansible_distribution_major_version": "7", 
+        "ansible_distribution_release": "Core", 
+        "ansible_distribution_version": "7.1.1503", 
+        "ansible_domain": "localdomain", 
+        "ansible_enp0s5": {
+            "active": true, 
+            "device": "enp0s5", 
+            "ipv4": {
+                "address": "10.211.55.8", 
+                "netmask": "255.255.255.0", 
+                "network": "10.211.55.0"
+            }, 
+            "ipv6": [
+                {
+                    "address": "fdb2:2c26:f4e4:0:21c:42ff:fe67:e40e", 
+                    "prefix": "64", 
+                    "scope": "global"
+                }, 
+                {
+                    "address": "fe80::21c:42ff:fe67:e40e", 
+                    "prefix": "64", 
+                    "scope": "link"
+                }
+            ], 
+            "macaddress": "00:1c:42:67:e4:0e", 
+            "module": "e1000", 
+            "mtu": 1500, 
+            "promisc": false, 
+            "type": "ether"
+        }, 
+        "ansible_env": {
+            "HOME": "/root", 
+            "LANG": "en_US.UTF-8", 
+            "LC_CTYPE": "en_US.UTF-8", 
+            "LESSOPEN": "||/usr/bin/lesspipe.sh %s", 
+            "LOGNAME": "root", 
+            "MAIL": "/var/mail/root", 
+            "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin", 
+            "PWD": "/root", 
+            "SELINUX_LEVEL_REQUESTED": "", 
+            "SELINUX_ROLE_REQUESTED": "", 
+            "SELINUX_USE_CURRENT_RANGE": "", 
+            "SHELL": "/bin/bash", 
+            "SHLVL": "2", 
+            "SSH_CLIENT": "10.211.55.2 60806 22", 
+            "SSH_CONNECTION": "10.211.55.2 60806 10.211.55.8 22", 
+            "SSH_TTY": "/dev/pts/1", 
+            "TERM": "screen", 
+            "USER": "root", 
+            "XDG_RUNTIME_DIR": "/run/user/0", 
+            "XDG_SESSION_ID": "59", 
+            "_": "/usr/bin/python"
+        }, 
+        "ansible_form_factor": "Unknown", 
+        "ansible_fqdn": "localhost.localdomain", 
+        "ansible_hostname": "localhost", 
+        "ansible_interfaces": [
+            "lo", 
+            "enp0s5"
+        ], 
+        "ansible_kernel": "3.10.0-229.el7.x86_64", 
+        "ansible_lo": {
+            "active": true, 
+            "device": "lo", 
+            "ipv4": {
+                "address": "127.0.0.1", 
+                "netmask": "255.0.0.0", 
+                "network": "127.0.0.0"
+            }, 
+            "ipv6": [
+                {
+                    "address": "::1", 
+                    "prefix": "128", 
+                    "scope": "host"
+                }
+            ], 
+            "mtu": 65536, 
+            "promisc": false, 
+            "type": "loopback"
+        }, 
+        "ansible_machine": "x86_64", 
+        "ansible_memfree_mb": 870, 
+        "ansible_memtotal_mb": 3788, 
+        "ansible_mounts": [
+            {
+                "device": "/dev/mapper/centos-root", 
+                "fstype": "xfs", 
+                "mount": "/", 
+                "options": "rw,seclabel,relatime,attr2,inode64,noquota", 
+                "size_available": 38651502592, 
+                "size_total": 42958049280
+            }, 
+            {
+                "device": "/dev/sda1", 
+                "fstype": "xfs", 
+                "mount": "/boot", 
+                "options": "rw,seclabel,relatime,attr2,inode64,noquota", 
+                "size_available": 391655424, 
+                "size_total": 520794112
+            }, 
+            {
+                "device": "/dev/mapper/centos-home", 
+                "fstype": "xfs", 
+                "mount": "/home", 
+                "options": "rw,seclabel,relatime,attr2,inode64,noquota", 
+                "size_available": 20935766016, 
+                "size_total": 20973617152
+            }
+        ], 
+        "ansible_nodename": "localhost.localdomain", 
+        "ansible_os_family": "RedHat", 
+        "ansible_pkg_mgr": "yum", 
+        "ansible_processor": [
+            "Intel(R) Core(TM) i5-4258U CPU @ 2.40GHz", 
+            "Intel(R) Core(TM) i5-4258U CPU @ 2.40GHz", 
+            "Intel(R) Core(TM) i5-4258U CPU @ 2.40GHz"
+        ], 
+        "ansible_processor_cores": 3, 
+        "ansible_processor_count": 1, 
+        "ansible_processor_threads_per_core": 1, 
+        "ansible_processor_vcpus": 3, 
+        "ansible_product_name": "Parallels Virtual Platform", 
+        "ansible_product_serial": "Parallels-DE 9D D1 F8 46 EC 44 26 9B E2 13 63 EB 38 91 56", 
+        "ansible_product_uuid": "DE9DD1F8-46EC-4426-9BE2-1363EB389156", 
+        "ansible_product_version": "None", 
+        "ansible_python_version": "2.7.5", 
+        "ansible_selinux": {
+            "config_mode": "enforcing", 
+            "mode": "enforcing", 
+            "policyvers": 28, 
+            "status": "enabled", 
+            "type": "targeted"
+        }, 
+        "ansible_ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDvHzK1168NhsqtMlLbtEzEx5rSfn+Motvl7tJhs8s6nT+2UotEHpGiNgYy1yfh9v1KTtadt2a2NkMP+38l7O8k=", 
+        "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABAQC1TwHbvaqqqcudJ/YeoHdYHzus9cR70NhA2Ox2tAniNssP3nVyJ17XGB5uvbnN3wX3Vp8VPUNJKUmgu+RDYFo53c/c/UOi1Aj/oRG45NmQ69npHOKhtMqKq4eAlVk3AMVI0RB8ALl1c7iNYiKsr03QavpP0WaJDHxeO9Bgpnis1An1jZ+RvY4JvoujHS1t73q7ePJJ8BiuJWnd65cQEbExWbK/GwxB6qYe3ff3e5nu8HpSWZQ/tpK2VXu1vT9REvpbtDkovjDnxNHeYSaPx7RzGO1hu58kxbhBKB26nG9EwIv9M09RC6mOOeYIfnfR72Rl3ZfXJU1EzfDjCc4Qk4J7", 
+        "ansible_swapfree_mb": 3967, 
+        "ansible_swaptotal_mb": 3967, 
+        "ansible_system": "Linux", 
+        "ansible_system_vendor": "Parallels Software International Inc.", 
+        "ansible_user_id": "root", 
+        "ansible_userspace_architecture": "x86_64", 
+        "ansible_userspace_bits": "64", 
+        "ansible_virtualization_role": "guest", 
+        "ansible_virtualization_type": "parallels", 
+        "module_setup": true
+    }, 
+    "changed": false
+}
+

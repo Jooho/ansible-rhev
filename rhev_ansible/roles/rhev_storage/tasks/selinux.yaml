@@ -1,0 +1,14 @@
+  - name: Check the status of selinux
+    shell: getenforce
+    register: selinux_status
+
+  - name: Change selinux enforcing to permissive permanently
+    selinux: policy=targeted state=disabled
+    
+  - debug: var=selinux_permanently
+
+  - name: Change selinux enforcing to permissive for now
+    shell: setenforce 0
+    when: selinux_status.stdout == Enforcing
+
+  - debug: msg="getenforce = {{getenforce.stdout}}"

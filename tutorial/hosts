@@ -1,0 +1,7 @@
+[Test]
+centos7 ansible_ssh_host=10.211.55.8 
+#centos7 ansible_ssh_host=10.211.55.8 ansible_ssh_user=root ansible_ssh_pass=redhat
+#centos7 ansible_ssh_host=10.211.55.8 ansible_ssh_user=root
+
+[Test:vars]
+ansible_ssh_user=root

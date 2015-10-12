@@ -1,0 +1,7 @@
+
+
+__iso_files:
+  - rhel-server-6.6-x86_64-150304.iso
+__iso_files_repo:
+  - rhel-server-6.6-x86_64-dvd.iso
+#g_storages: "{{'storages'}}"

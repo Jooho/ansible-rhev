@@ -1,0 +1,76 @@
+# Using register, test if it is possible to set string and use it as variable.
+# Execute command : ansible-playbook -i ./test/test_hosts.yaml ./rhev_ansible/test_task.yaml --tags "register" -vvv
+  - name: Set string using register
+    set_fact:
+      specific_text: RedHat
+    tags: register
+    when: ansible_os_family == 'RedHat'
+
+  - name: Print specific_text value
+    debug: msg="{{specific_text}}"
+    tags: register
+    when: specifi_text is defined
+  
+  - name: Print ansible_os_family & ansible_distribution
+    tags: register
+    debug: msg="ansible_os_family = {{ansible_os_family}}  & ansible_distribution = {{ansible_distribution}}"
+ 
+# Change selinux options
+
+  - name: Change selinux enforcing to permissive permanently
+    selinux: policy=targeted state=disabled
+    tags: selinux
+    register: selinux_permanently
+       
+  - debug: var=selinux_permanently
+    tags: selinux
+ 
+  - name: Change selinux enforcing to permissive right now
+    shell: setenforce 0
+    tags: selinux
+    
+  - name: Check selinux status
+    shell: getenforce
+    tags: selinux
+    register: getenforce
+
+  - debug: msg="getenforce = {{getenforce.stdout}}"    
+    tags: selinux
+
+# Services
+  - name: Check if iptables is installed
+    yum: name=iptables
+    tags: services
+    register: iptables_installed
+  
+  - name: Disable/stop iptables
+    service: name=iptables state=stopped enabled=no
+    tags: services
+    register: iptables_stopped
+    ignore_errors: yes
+    when: iptables_installed.rc == 0
+ 
+  - name: Check the status of iptables
+    shell: service iptables status 
+    tags: services
+    register: iptables_status
+    when: iptables_installed.rc == 0 and iptables_stopped.failed != true
+
+  - name: Check chkconfig of iptables
+    shell: chkconfig --list |grep iptables
+    tags: services
+    ignore_errors: yes
+    register: iptables_chkconfig
+
+ # NFS
+  - name: Create nfs device mount point  
+    file: path={{storage_nfs_mount_point}} state=directory 
+    tags: nfs
+ 
+#  - name: format nfs device
+#    filesystem: dev={{storage_nfs_device_name}} fstype=ext4 opts="-y"
+#    tags: nfs
+  
+  - name: format nfs device
+    shell: echo y| mkfs.ext4 {{storage_nfs_device_name}}
+    tags: nfs

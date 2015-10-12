@@ -1,0 +1,35 @@
+# Create an RHEV group that contains the masters and nodes groups
+[RHEV:children]
+#managers 
+storages
+#hypervisors
+
+# Set variables common for all RHEV hosts
+[RHEV:vars]
+ansible_ssh_user=root
+#product_type=rhev
+#deployment_type=enterprise
+#ansible_ssh_pass=redhat
+
+# storage variable
+[storages:vars]
+storage_iscsi_device_name=/dev/sdb
+storage_nfs_device_name=/dev/sdc
+storage_nfs_mount_point=/mnt/nfs
+
+# host group for manager
+#[managers]
+#manager.example.com
+
+# host group for Storage
+[storages]
+storage.example.com ansible_ssh_host=10.211.55.9
+
+# host group for Hypervisor
+#[hypervisors]
+#hypervisor[1:3].example.com
+
+[RHEV:children]
+#managers 
+storages
+#hypervisors

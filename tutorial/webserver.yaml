@@ -1,0 +1,13 @@
+- hosts: centos7
+  gather_facts: yes
+  vars:
+    http_port: 80
+    max_clients: 200
+  tasks:
+  - name: ensure apache is at the latest version
+    action: yum name=bind state=latest
+    notify: install bind
+
+  handlers:
+  - name: install bind
+    template: src=template/name.conf.j2 dest=/etc/named.conf owner=root group=named mode=0640

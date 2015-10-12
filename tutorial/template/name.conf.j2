@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+   options {
+     listen-on port 53 {
+       127.0.0.1;
+       {% for ip in ansible_all_ipv4_addresses %}
+         {{ ip }};
+       {% endfor %}
+     };
+     listen-on-v6 port 53 { ::1; };
+     directory       "/var/named";
+     dump-file       "/var/named/data/cache_dump.db";
+     statistics-file "/var/named/data/named_stats.txt";
+     memstatistics-file "/var/named/data/named_mem_stats.txt";
+};
+   zone "." IN {
+     type hint;
+     file "named.ca";
+   };
+   include "/etc/named.rfc1912.zones";
+   include "/etc/named.root.key";
+ {# Variables for zone config #}
+ {% if 'authorativenames' in group_names %}
+    {% set zone_type = 'master' %}
+    {% set zone_dir = 'data' %}
+{% else %}
+   {% set zone_type = 'slave' %}
+   {% set zone_dir = 'slaves' %}
+{% endif %}
+zone "internal.example.com" IN {
+   type {{ zone_type }};
+   file "{{ zone_dir }}/internal.example.com";
+   {% if 'authorativenames' not in group_names %}
+     masters { 192.168.2.2; };
+   {% endif %}
+};

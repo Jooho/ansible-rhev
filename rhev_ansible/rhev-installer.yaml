@@ -1,0 +1,5 @@
+- hosts: storages
+  gather_facts: false
+  roles:
+    - { role: rhev_storage }
+#    - { role: webserver-repos }

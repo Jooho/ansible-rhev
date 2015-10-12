@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+   [mariadbd]
+   datadir=/var/lib/mariadb
+   socket=/var/lib/mariadb/mariadb.sock
+   # Disabling symbolic-links is recommended to prevent assorted
+     security risks
+   symbolic-links=0
+   # Settings user and group are ignored when systemd is used.
+   # If you need to run mariadbd under a different user or group,
+   # customize your systemd unit file for mariadbd according to the
+   # instructions in http://fedoraproject.org/wiki/Systemd
+   # Configure the buffer pool
+   innodb_buffer_pool_size = {{
+     innodb_buffer_pool_size_mb|default(128) }}M
+   [mariadbd_safe]
+   log-error=/var/log/mariadb.log
+   pid-file=/var/run/mariadbd/mariadb.pid

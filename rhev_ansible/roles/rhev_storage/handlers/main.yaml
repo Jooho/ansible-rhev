@@ -1,0 +1,7 @@
+  - name: test debug msg
+    debug: msg="test!!!!"
+  
+  - name: copy dvd file to tmp
+    shell: cp {{item}} /tmp
+    with_items:
+       __iso_files_repo

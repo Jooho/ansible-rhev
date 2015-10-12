@@ -1,0 +1,19 @@
+  - name: Create copy.sh which will copy all iso files to storage server
+    local_action: template src=copy.sh.j2 dest=./copy.sh mode=0777
+  
+  - name: execute copy.sh file to copy iso file asynchronally
+    shell: ./copy.sh
+    delegate_to: localhost
+    tags: test
+    async: 300
+    poll: 0
+    register: iso_copy
+
+  - name: Check async copy.sh status
+    async_status: jid={{ iso_copy.ansible_job_id }}
+    tags: test
+    register: iso_copy_complete
+    until: iso_copy_complete.finished
+    retries: 30
+    delegate_to: localhost
+    notify: copy dvd file to tmp
