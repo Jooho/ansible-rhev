@@ -4,13 +4,21 @@
 
   - name: Disable/stop iptables
     service: name=iptables state=stopped enabled=no
-    tags: services
     register: iptables_stopped
     ignore_errors: yes
     when: iptables_installed.rc == 0
 
   - name: Check chkconfig of iptables
     shell: chkconfig --list |grep iptables
-    tags: services
     ignore_errors: yes
     when: iptables_installed.rc == 0
+  
+  - name: Check if NetworkManager is installed
+    yum: name=NetworkManager
+    register: networkmanager_installed
+ 
+  - name: Disable/stop NetworkManager
+    service: name=NetworkManager state=stopped enabled=no
+    register: networkmanger_stopped
+    ignore_errors: yes
+    when: networkmanager_installed.rc == 0

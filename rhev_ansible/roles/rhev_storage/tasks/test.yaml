@@ -9,7 +9,7 @@
   - name: Print specific_text value
     debug: msg="{{specific_text}}"
     tags: register
-    when: specifi_text is defined
+    when: specific_text is defined
   
   - name: Print ansible_os_family & ansible_distribution
     tags: register
@@ -54,19 +54,27 @@
     shell: service iptables status 
     tags: services
     register: iptables_status
-    when: iptables_installed.rc == 0 and iptables_stopped.failed != true
+    ignore_errors: yes
+    when: iptables_installed.rc == 0 
 
   - name: Check chkconfig of iptables
     shell: chkconfig --list |grep iptables
     tags: services
     ignore_errors: yes
-    register: iptables_chkconfig
+    when: iptables_installed.rc == 0 
+ 
+# NFS
+  - name: Check if nfs is configured or no
+    mount: name={{storage_nfs_mount_point}} src={{storage_nfs_device_name}} fstype=ext4 opts=rw state=mounted
+    tags: nfs
+    register: nfs_mounted
 
- # NFS
-  - name: Create nfs device mount point  
+  - debug: var=nfs_mounted.changed
+  - name: Create nfs device mount point folder
     file: path={{storage_nfs_mount_point}} state=directory 
     tags: nfs
- 
+    when: nfs_mounted.changed == true 
+
 #  - name: format nfs device
 #    filesystem: dev={{storage_nfs_device_name}} fstype=ext4 opts="-y"
 #    tags: nfs
@@ -74,3 +82,68 @@
   - name: format nfs device
     shell: echo y| mkfs.ext4 {{storage_nfs_device_name}}
     tags: nfs
+    when: nfs_mounted.changed == true
+   
+  - name: mount nfs device to {{storage_nfs_mount_point}}
+    mount: name={{storage_nfs_mount_point}} src={{storage_nfs_device_name}} fstype=ext4 opts=rw state=mounted
+    tags: nfs
+    when: nfs_mounted.changed == true
+
+# ISO
+  - name: Create iso folder under nfs device mount point  
+    file: path={{storage_nfs_mount_point}}/iso state=directory 
+    tags: iso
+
+  - name: Define ISO_files
+    set_fact:
+      iso_files: "{{ __iso_files | list }}"
+    tags: iso
+    when: iso_files is not defined
+
+# this will work with ansible 2.0(https://github.com/ansible/ansible/issues/5841)
+ # - name: Copy ISO files to Storage
+ #   copy: src={{item}} dest=/tmp
+ #   tags: iso
+ #   async: 600
+ #   poll: 100
+ #   with_items: iso_files
+     
+#  - name: Copy ISO files to Storage
+#    copy: src=rhel-server-6.6-x86_64-150304.iso dest={storage_nfs_mount_point}}/iso
+#    tags: iso
+
+  - name: async test for copying iso files.
+    local_action: template src=copy.sh.j2 dest=./copy.sh mode=0777
+    tags: iso
+
+#Test async copying ISO files  
+  - name: execute copy.sh file to copy iso file asynchronally
+    shell: ./copy.sh
+    delegate_to: localhost
+    tags: iso
+    async: 20
+    poll: 0
+    register: copy_iso
+  
+  - name: task debug - before async_status
+    debug: "task debug - before async_status"
+    tags: iso
+    
+  - name: Check async copy.sh status
+    async_status: jid={{ copy_iso.ansible_job_id }}
+    tags: iso
+    register: check_copy_iso
+    until: check_copy_iso.finished
+    retries: 30
+    delegate_to: localhost
+    notify: test debug msg
+
+  - name: task debug - after async_status
+    debug: "task debug - after async_status"
+    tags: iso
+
+  - name: copy dvd file to tmp
+    shell: cp {{item}} /tmp
+    with_items:
+       __iso_files_repo
+    tags: test

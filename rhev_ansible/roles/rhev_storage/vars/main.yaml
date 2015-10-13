@@ -2,6 +2,8 @@
 
 __iso_files:
   - rhel-server-6.6-x86_64-150304.iso
-__iso_files_repo:
-  - rhel-server-6.6-x86_64-dvd.iso
+  - rhev-3.5.0.1-150304.iso
+__iso_files_repos:
+  - { long: 'rhel-server-6.6-x86_64-150304.iso', short: 'rhel66'}
+  - { long: 'rhev-3.5.0.1-150304.iso', short: 'rhev35'}
 #g_storages: "{{'storages'}}"

@@ -16,6 +16,10 @@ ansible_ssh_user=root
 storage_iscsi_device_name=/dev/sdb
 storage_nfs_device_name=/dev/sdc
 storage_nfs_mount_point=/mnt/nfs
+storage_mgmt_network_interface=eth1
+storage_mgmt_network_address=192.168.20.10
+storage_storage_network_interface=eth2
+storage_storage_network_address=192.168.20.20
 
 # host group for manager
 #[managers]

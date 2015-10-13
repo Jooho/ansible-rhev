@@ -1,3 +1,3 @@
 {% for item in __iso_files %}
-scp {{item}} root@{{hostvars[groups['storages'][0]].ansible_ssh_host}}:/root/
+scp /Users/jhouse/dev/files/{{item}} root@{{hostvars[groups['storages'][0]].ansible_ssh_host}}:{{storage_nfs_mount_point}}/iso/{{item}}
 {% endfor %}

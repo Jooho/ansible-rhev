@@ -1,0 +1,27 @@
+  - name: Check if nfs is configured or not
+    shell: mount | grep '{{storage_nfs_device_name}} on {{storage_nfs_mount_point}}'
+    ignore_errors: yes
+    register: nfs_mounted
+    
+  - debug: var=nfs_mounted.changed
+
+  - name: Create nfs device mount point folder
+    file: path={{storage_nfs_mount_point}} state=directory
+    when: nfs_mounted.rc != 0
+
+#  - name: format nfs device
+#    filesystem: dev={{storage_nfs_device_name}} fstype=ext4 opts="-y"
+#    tags: nfs
+
+  - name: format nfs device
+    shell: echo y| mkfs.ext4 {{storage_nfs_device_name}}
+    when: nfs_mounted.rc != 0
+
+  - name: mount nfs device to {{storage_nfs_mount_point}}
+    mount: name={{storage_nfs_mount_point}} src={{storage_nfs_device_name}} fstype=ext4 opts=rw state=mounted
+  
+  - name: Create iso folder under nfs device mount point
+    file: path={{storage_nfs_mount_point}}/iso state=directory
+  
+  - name: creating a directory for NFS export
+    file: path={{storage_nfs_mount_point}}/{{__iso_files_repos[1].short}} state=directory mode=36 group=36

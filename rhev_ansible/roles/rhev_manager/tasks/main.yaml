@@ -1,0 +1,21 @@
+
+ ---
+ - hosts: managers
+   remote_user: root
+   tasks:
+   - name: copy the local repo file
+     template: src=/root/playbooks/ovirt/rhev35.repo dest=/etc/yum.repos.d/rhev35.repo
+   - name: configure hostname
+     command: {{ item }}
+       with_itmes:
+       - /bin/echo "NETWORKING=yes" > /etc/sysconfig/network
+       - /bin/echo "HOSTNAME=manager.{{ovirt_organization}}" >> /etc/sysconfig/network
+       - /bin/hostname "manager.{{ovirt_organization}}"
+   - name: update all os packages
+     yum: pkg=* state=latest
+   - name: install ovirt-engine and relevant packages
+     yum: pkg=rhevm state=latest
+   - name: copy the ovirt-engine answer file
+     template: src=/root/playbooks/ovirt/ovirt_engine_35.answer dest=/root/ovirt_engine.answer
+   - name: install ovirt-engine
+     command: /usr/bin/engine-setup --conig-append=/root/ovirt_engine.answer
