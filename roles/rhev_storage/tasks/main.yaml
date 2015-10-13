@@ -1,9 +1,6 @@
 
   - include: ./disk.yaml
   - include: ./copy_iso.yaml
-  - include: ./selinux.yaml
-  - include: ./network.yaml
-  - include: ./services.yaml
  
   - name: Check async copy.sh status
     async_status: jid={{ iso_copy.ansible_job_id }}
@@ -22,14 +19,17 @@
     with_indexed_items:
        __iso_files_repos
 
+  - include: ./selinux.yaml
+
   - name: Copy repo file under yum.repos.d
     template: src=local.repo.j2 dest=/etc/yum.repos.d/local.repo
 
 
+  - include: ./network.yaml
+  - include: ./services.yaml
   - include: ./nfs.yaml
   - include: ./iscsi.yaml
   - include: ./lvm.yaml
-# - include: ./rhev-engine.yaml
   - name: hosts file generated
     local_action: template src=hosts.j2 dest="{{pwd_path}}/hosts"
     tags: test 

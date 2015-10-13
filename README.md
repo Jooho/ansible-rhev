@@ -2,6 +2,7 @@
 ansible rhev playbook
 
 # Network Topology 
+<core>
       +----------------+
       | Ansible Master |
       +-------+--------+        ---+------------+------------+---- Service network
@@ -17,3 +18,4 @@ ansible rhev playbook
    ---+------------|---------|--+---------|--+---------|--+------- Management network
                    |         |            |            |
                 ---+---------+------------+------------+---------- Storage network 
+</code>

@@ -3,7 +3,7 @@
 #  template: src=.....
 
 - name: install a network interface for rhev management network
-  template: src=ifcfg-net.j2 dest=/etc/network/network-scripts/ifcfg-{{ovirt_engine_mgmt_network_interface}}
+  template: src=ifcfg-mgmt.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ovirt_engine_mgmt_network_interface}}
 
 - name: bring the network interface up
   command: ifup {{ovirt_engine_mgmt_network_interface}}
@@ -31,7 +31,7 @@
   template: src=ovirt_engine_answer.j2 dest=/root/ovirt_engine.answer
 
 - name: install ovirt-engine
-  command: /usr/bin/engine-setup --conig-append=/root/ovirt_engine.answer
+  command: /usr/bin/engine-setup --config-append=/root/ovirt_engine.answer
   when: rhevm_installed.rc == 0 and rhevm_network_is_up.rc == 0
 
 #TODO : need to check if ovirt-engine has been installed successfully

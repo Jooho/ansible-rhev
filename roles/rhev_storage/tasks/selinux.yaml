@@ -2,6 +2,10 @@
     shell: getenforce
     register: selinux_status
 
+  # In certain environment, libselinux-python is missing 
+  - name: Install libselinux-python package to use ansible's selinux module
+    shell: yum -y localinstall {{storage_nfs_mount_point}}/tmp/Packages/libselinux-python-*
+
   - name: Change selinux enforcing to permissive permanently
     selinux: policy=targeted state=disabled
     

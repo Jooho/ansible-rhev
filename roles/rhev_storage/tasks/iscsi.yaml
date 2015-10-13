@@ -9,6 +9,7 @@
    - name: Check if the iscsi is running
      shell: tgt-admin --dump|grep {{storage_iscsi_device_name}}
      register: iscsi_running
+     ignore_errors: yes
 
    - name: setting up a lun for iSCSI ({{__iso_files_repos[1].short}} <== rhev version <rhev35>)
      shell: "{{ item }}"
