@@ -6,17 +6,11 @@
     with_items:
        __iso_files
 
-  - name: set concurrent path
-    local_action: command pwd
-    register: pwd
-    
-  - debug: var=iso_exist
-    
   - name: Create copy.sh which will copy all iso files to storage server
-    local_action: template src=copy.sh.j2 dest="{{pwd.stdout}}/copy.sh" mode=0777
+    local_action: template src=copy.sh.j2 dest="{{pwd_path}}/copy.sh" mode=0777
   
   - name: execute copy.sh file to copy iso file asynchronally
-    shell: "{{pwd.stdout}}/copy.sh"
+    shell: "{{pwd_path}}/copy.sh"
     delegate_to: localhost
     async: 300
     poll: 0

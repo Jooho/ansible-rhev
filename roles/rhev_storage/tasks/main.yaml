@@ -26,8 +26,10 @@
     template: src=local.repo.j2 dest=/etc/yum.repos.d/local.repo
 
 
-  - include: ./apache_repos.yaml
   - include: ./nfs.yaml
   - include: ./iscsi.yaml
   - include: ./lvm.yaml
 # - include: ./rhev-engine.yaml
+  - name: hosts file generated
+    local_action: template src=hosts.j2 dest="{{pwd_path}}/hosts"
+    tags: test 

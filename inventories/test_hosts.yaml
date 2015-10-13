@@ -16,8 +16,6 @@ ansible_ssh_user=root
 storage_iscsi_device_name=/dev/sdb
 storage_nfs_device_name=/dev/sdc
 storage_nfs_mount_point=/mnt/nfs
-storage_mgmt_network_interface=eth1
-storage_mgmt_network_address=192.168.20.10
 storage_storage_network_interface=eth2
 storage_storage_network_address=192.168.20.20
 rhev_organization=example.com
@@ -27,10 +25,11 @@ rhev_organization=example.com
 manager.example.com ansible_ssh_host=10.211.55.9
 
 [managers:vars]
+ovirt_engine_share_storage_vm=true
 ovirt_engine_fqdn=manager.example.com
 ovirt_engine_password=redhat
 ovirt_engine_mgmt_network_interface=eth1
-ovirt_engine_mgmt_network_address=192.168.30.35
+ovirt_engine_mgmt_network_address=192.168.30.10
 
 # host group for Storage
 [storages]
