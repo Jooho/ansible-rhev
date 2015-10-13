@@ -1,0 +1,37 @@
+#TODO
+#- name: copy the default hosts file to /etc/hosts
+#  template: src=.....
+
+- name: install a network interface for rhev management network
+  template: src=ifcfg-net.j2 dest=/etc/network/network-scripts/ifcfg-{{ovirt_engine_mgmt_network_interface}}
+
+- name: bring the network interface up
+  command: ifup {{ovirt_engine_mgmt_network_interface}}
+  register: rhevm_network_is_up
+
+- name: configure hostname
+  command: "{{item}}"  
+  with_items:
+    - echo "NETWORKING=yes" > /etc/sysconfig/network
+    - echo "HOSTNAME={{ovirt_engine_fqdn}}" >> /etc/sysconfig/network
+    - hostname "{{ovirt_engine_fqdn}}"
+
+- name: copy the local repo file
+  template: src=rhev35_yum_repo.j2 dest=/etc/yum.repos.d/rhev35.repo
+
+- name: update all os packages
+  yum: pkg=* state=latest
+  ignore_errors: yes
+
+- name: install rhevm packages 
+  yum: name=rhevm state=latest
+  register: rhevm_installed
+
+- name: copy the ovirt-engine answer file
+  template: src=ovirt_engine_answer.j2 dest=/root/ovirt_engine.answer
+
+- name: install ovirt-engine
+  command: /usr/bin/engine-setup --conig-append=/root/ovirt_engine.answer
+  when: rhevm_installed.rc == 0 and rhevm_network_is_up.rc == 0
+
+#TODO : need to check if ovirt-engine has been installed successfully
