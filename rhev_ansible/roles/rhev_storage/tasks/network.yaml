@@ -1,0 +1,13 @@
+
+
+   - name: copy storage network ifcfg file to storage machine
+     template: src=ifcfg-storage.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{storage_storage_network_interface}}
+     register: storage_network
+
+   - name: copy mgmt network ifcfg file to storage machine
+     template: src=ifcfg-mgmt.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{storage_mgmt_network_interface}}
+     register: mgmt_network
+
+   - name: restart network service
+     service: name=network state=restarted
+     when: storage_network.changed == true or mgmt_network.changed == true

@@ -1,0 +1,16 @@
+
+
+   - name: install a package for iSCSI
+     yum: pkg=scsi-target-utils state=latest
+   
+   - name: enabling and starting tgtd service
+     service: name=tgtd state=started enabled=yes
+  
+   - name: setting up a lun for iSCSI ({{__iso_files_repos[1].short}} <== rhev version <rhev35>)
+     command: "{{ item }}"
+     with_items:
+       - tgt-setup-lun -d {{storage_iscsi_device_name}} -n {{__iso_files_repos[1].short}}
+       - tgt-admin --dump | grep -v iscsi >> /etc/tgt/targets.conf
+   
+   - name: restarting tgtd service
+     service: name=tgtd state=restarted

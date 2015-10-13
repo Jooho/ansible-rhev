@@ -1,0 +1,9 @@
+
+
+
+   - name: inserting a reject line into lvm.conf
+     lineinfile:
+      dest=/etc/lvm/lvm.conf
+      state=present
+      regexp='#\ filter\ =\ \[\ \"a\/\.\*\/\"\ \]'
+      line='    filter = [ "a/.*/", "r|{{storage_iscsi_device_name}}|" ]'
