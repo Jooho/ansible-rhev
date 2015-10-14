@@ -1,0 +1,5 @@
+- hosts: managers
+  gather_facts: false
+
+  roles:
+    - { role: rhev_manager, tags: manager }

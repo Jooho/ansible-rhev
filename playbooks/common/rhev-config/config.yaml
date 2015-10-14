@@ -1,0 +1,26 @@
+
+- name: Populate config host groups
+  hosts: localhost
+  gather_facts: no
+  tasks:
+
+  - fail:
+      msg: This playbook rquires storage_ip to be set
+    when: storage_ip is not defined
+    tags: test
+  - debug: var=storage_ip
+    tags: test
+
+  - debug: var=g_hypervisors_group
+    tags: test
+
+  - name: Evaluate oo_hypervisor_to_config
+    add_host:
+      name: "{{ item }}"
+      groups: oo_hypervior_to_config
+      ip: "{{hostvars[item].public_ip}}"
+    with_items: groups[g_hypervisors_group] 
+    tags: test
+  
+  - debug: msg="{{ hostvars['hypervisor1.example.com']}}"
+    tags: test

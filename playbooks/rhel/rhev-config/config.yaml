@@ -1,0 +1,4 @@
+- include: ../../common/rhev-config/config.yaml
+  vars:
+    g_hypervisors_group: "{{ 'hypervisors' }}"
+    storage_ip: "{{ hostvars['storage.example.com'].storage_storage_network_address }}"
