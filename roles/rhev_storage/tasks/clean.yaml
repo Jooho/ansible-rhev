@@ -4,3 +4,9 @@
     mount: src={{storage_nfs_mount_point}}/iso/{{item.1.long}}  name={{storage_nfs_mount_point}}/tmp/ fstype="iso9660" opts="loop" state=unmounted
     with_indexed_items:
        __iso_files_repos
+
+  - name: Remove copy.sh 
+    shell: "rm {{pwd_path}}/copy.sh"
+    ignore_errors: true
+    delegate_to: localhost
+    tags: test

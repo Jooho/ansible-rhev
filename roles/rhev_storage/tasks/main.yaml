@@ -1,7 +1,9 @@
 
   - include: ./disk.yaml
   - include: ./copy_iso.yaml
- 
+  - include: ./network.yaml
+  - include: ./services.yaml
+
   - name: Check async copy.sh status
     async_status: jid={{ iso_copy.ansible_job_id }}
     register: iso_copy_complete
@@ -10,26 +12,12 @@
     delegate_to: localhost
     when: iso_exist.msg != "All items completed"
 
-
-  - name: Create temp folder under nfs_mount_point for repos
-    file: path={{storage_nfs_mount_point}}/tmp state=directory 
-
-  - name: mount rhel iso file to {{storage_nfs_mount_point}}/tmp
-    mount: src={{storage_nfs_mount_point}}/iso/{{item.1.long}}  name={{storage_nfs_mount_point}}/tmp/ fstype="iso9660" opts="loop" state=mounted
-    with_indexed_items:
-       __iso_files_repos
-
+  - include: ./temp_repos.yaml
   - include: ./selinux.yaml
-
-  - name: Copy repo file under yum.repos.d
-    template: src=local.repo.j2 dest=/etc/yum.repos.d/local.repo
-
-
-  - include: ./network.yaml
-  - include: ./services.yaml
   - include: ./nfs.yaml
   - include: ./iscsi.yaml
   - include: ./lvm.yaml
-  - name: hosts file generated
-    local_action: template src=hosts.j2 dest="{{pwd_path}}/hosts"
-    tags: test 
+
+  - include: ./clean.yaml
+
+  

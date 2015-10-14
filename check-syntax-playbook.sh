@@ -22,4 +22,4 @@ echo "################################"
 
 echo "### Starting tests"
 
-find ./rhev_ansible -maxdepth 1 -name '*.yaml'| xargs -n1  ansible-playbook --syntax-check --list-tasks -i test/test_hosts.yaml
+find ./playbooks -maxdepth 2 -name '*.yaml'| xargs -n1  ansible-playbook --syntax-check --list-tasks -i inventories/test_hosts.yaml

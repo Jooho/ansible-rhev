@@ -1,6 +1,6 @@
 
 
-   - name: exporting a nfs path (__iso_files_repos[1].short ==> rhev version <ex, rhev36>)
+   - name: Exporting a nfs path (__iso_files_repos[1].short ==> rhev version <ex, rhev36>)
      lineinfile:
        dest=/etc/exports
        line="{{storage_nfs_mount_point}}/{{__iso_files_repos[1].short}}  *(rw,sync)"
@@ -8,5 +8,5 @@
        insertafter=EOF
        create=yes
 
-   - name: enabling and starting nfs service
+   - name: Enabling and starting nfs service
      service: name=nfs state=started enabled=yes

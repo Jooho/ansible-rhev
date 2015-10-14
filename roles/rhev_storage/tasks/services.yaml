@@ -14,11 +14,11 @@
     when: iptables_installed.rc == 0
   
   - name: Check if NetworkManager is installed
-    yum: name=NetworkManager
+    shell: "rpm -qa NetworkManager"
     register: networkmanager_installed
- 
+    
   - name: Disable/stop NetworkManager
     service: name=NetworkManager state=stopped enabled=no
     register: networkmanger_stopped
     ignore_errors: yes
-    when: networkmanager_installed.rc == 0
+    when: networkmanager_installed.stdout.find('NetworkManager') == 0
