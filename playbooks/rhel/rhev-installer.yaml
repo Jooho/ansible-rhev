@@ -28,3 +28,5 @@
   roles:
     - { role: rhev_hypervisor, tags: hypervisor } 
 
+#tasks:
+#  - include: roles/rhev_manager/tasks/register_hypervisors.yaml 

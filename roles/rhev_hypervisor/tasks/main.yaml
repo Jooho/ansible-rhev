@@ -1,2 +1,26 @@
-- name: empty task
-  command: echo "needs to define tasks for hypervisors"
+#TODO 
+#  put "hypervisor_mgmt_network_interface=eth1" in the inventory
+
+#TODO
+#- name: verify if rhev_manager is running 
+#- name: configure /etc/hosts that contains rhev_manager info
+
+- name: install a network interface for rhev management network
+  template: src=ifcfg-mgmt.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{hypervisor_mgmt_network_interface}}
+
+- name: bring the network interface up
+  command: ifup {{hypervisor_mgmt_network_interface}}
+
+- name: configure hostname
+  command: "{{item}}"
+  with_items:
+    - echo "NETWORKING=yes" > /etc/sysconfig/network
+    - echo "HOSTNAME={{inventory_hostname}}" >> /etc/sysconfig/network
+    - hostname "{{inventory_hostname}}"
+
+- name: copy the local repo file
+  template: src=rhev35_yum_repo.j2 dest=/etc/yum.repos.d/rhev35.repo
+ 
+- name: update all os packages
+  yum: pkg=* state=latest
+  ignore_errors: yes

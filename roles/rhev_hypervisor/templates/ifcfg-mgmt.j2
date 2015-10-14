@@ -1,0 +1,7 @@
+DEVICE={{hypervisor_mgmt_network_interface}}
+TYPE=Ethernet
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR={{hostvars[inventory_hostname].public_ip}}
+NETMASK=255.255.255.0
+NM_CONTROLLED=no

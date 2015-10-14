@@ -1,0 +1,3 @@
+#TODO: use RHEV Restful API to register hypervisors
+- name: empty yet
+  command: echo "todo..."  
