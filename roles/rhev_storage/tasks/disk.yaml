@@ -24,4 +24,4 @@
     file: path={{storage_nfs_mount_point}}/iso state=directory
   
   - name: creating a directory for NFS export
-    file: path={{storage_nfs_mount_point}}/{{__iso_files_repos[1].short}} state=directory mode=36 group=36
+    file: path={{storage_nfs_mount_point}}/{{__iso_files_repos[1].short}} state=directory owner=36 group=36 mode=777
