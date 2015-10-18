@@ -31,16 +31,39 @@
   yum: name=rhevm state=latest
   register: rhevm_installed
 
+- name: check if rhevm has been already setup with the configuration file
+  stat: path=/etc/ovirt-engine-setup.conf.d/20-setup-ovirt-post.conf
+  register: rhevm_already_configured
+
 - name: copy the ovirt-engine answer file
   template: src=ovirt_engine_answer.j2 dest=/root/ovirt_engine.answer
+  when: rhevm_already_configured.stat.exists == False 
 
-- name: install ovirt-engine
+- name: run engine-setup to configure the rhevm with an answer file
   shell: /usr/bin/engine-setup --config-append=/root/ovirt_engine.answer
-  when: rhevm_installed.rc == 0 and rhevm_network_is_up.rc == 0
+  when: rhevm_installed.rc == 0 and rhevm_network_is_up.rc == 0 and rhevm_already_configured.stat.exists == False
+
+- name: restart the system
+  command: shutdown -r now "Ansible updates triggered"
+  async: 0
+  poll: 0
+  ignore_errors: yes
+  when: rhevm_already_configured.stat.exists == False
+
+- name: waiting for rhev_manager to come back
+  delegate_to: some.remote.host
+  wait_for: host="{{hostvars[inventory_hostname]}}"
+            state=started
+            port=22
+            delay=15
+            timeout=300
+            connect_timeout=15
+  sudo: false
+  when: rhevm_already_configured.stat.exists == False
 
 - name: check if ovirt-engine is running successfully
-  service: name=ovirt-engine state=started enabled=yes 
+  shell: service ovirt-engine status 
   register: ovirt_engine_started 
 
-- debug: msg="getenforce = {{ovirt_engine_started.stdout}}"
+- debug: msg="service ovirt-engine status {{ovirt_engine_started.stdout}}"
   when: ovirt_engine_started.stdout.find("running...") == 0
