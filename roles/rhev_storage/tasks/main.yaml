@@ -1,8 +1,6 @@
 
   - include: ./disk.yaml
   - include: ./copy_iso.yaml
-  - include: ./network.yaml
-  - include: ./services.yaml
 
   - name: Check async copy.sh status
     async_status: jid={{ iso_copy.ansible_job_id }}
@@ -14,6 +12,8 @@
 
   - include: ./temp_repos.yaml
   - include: ./selinux.yaml
+  - include: ./network.yaml
+  - include: ./services.yaml
   - include: ./nfs.yaml
   - include: ./iscsi.yaml
   - include: ./lvm.yaml
