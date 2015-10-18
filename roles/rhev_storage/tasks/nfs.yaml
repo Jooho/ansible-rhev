@@ -1,5 +1,9 @@
 
 
+   - name: Check if nfs-utils has been installed
+     yum: pkg=nfs-utils
+     register: nfs_installed
+
    - name: Exporting a nfs path (__iso_files_repos[1].short ==> rhev version <ex, rhev36>)
      lineinfile:
        dest=/etc/exports
@@ -10,3 +14,4 @@
 
    - name: Enabling and starting nfs service
      service: name=nfs state=started enabled=yes
+     when: nfs_installed.rc == 0
