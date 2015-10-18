@@ -6,15 +6,19 @@
   template: src=ifcfg-mgmt.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ovirt_engine_mgmt_network_interface}}
 
 - name: bring the network interface up
-  command: ifup {{ovirt_engine_mgmt_network_interface}}
+  shell: ifup {{ovirt_engine_mgmt_network_interface}}
   register: rhevm_network_is_up
 
 - name: configure hostname
-  command: "{{item}}"  
+  shell: "{{item}}"  
   with_items:
     - echo "NETWORKING=yes" > /etc/sysconfig/network
     - echo "HOSTNAME={{ovirt_engine_fqdn}}" >> /etc/sysconfig/network
     - hostname "{{ovirt_engine_fqdn}}"
+
+# In certain condition, libselinux-python is not installed by default
+#- name: Install libselinux-python package to use ansible's selinux module
+#  shell: yum -y localinstall http://storage.example.com/repo/rhel66/Packages/libselinux-python-*
 
 - name: copy the local repo file
   template: src=rhev35_yum_repo.j2 dest=/etc/yum.repos.d/rhev35.repo
@@ -31,7 +35,12 @@
   template: src=ovirt_engine_answer.j2 dest=/root/ovirt_engine.answer
 
 - name: install ovirt-engine
-  command: /usr/bin/engine-setup --config-append=/root/ovirt_engine.answer
+  shell: /usr/bin/engine-setup --config-append=/root/ovirt_engine.answer
   when: rhevm_installed.rc == 0 and rhevm_network_is_up.rc == 0
 
-#TODO : need to check if ovirt-engine has been installed successfully
+- name: check if ovirt-engine is running successfully
+  service: name=ovirt-engine state=started enabled=yes 
+  register: ovirt_engine_started 
+
+- debug: msg="getenforce = {{ovirt_engine_started.stdout}}"
+  when: ovirt_engine_started.stdout.find("running...") == 0
