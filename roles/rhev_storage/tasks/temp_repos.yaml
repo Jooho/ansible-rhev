@@ -8,5 +8,13 @@
     with_indexed_items:
        __iso_files_repos
 
+  # In certain condition, libselinux-python is not installed by default
+  - name: Install libselinux-python package to use ansible's selinux module
+    shell: yum -y localinstall {{storage_nfs_mount_point}}/tmp/Packages/libselinux-python-*
+
   - name: Copy repo file under yum.repos.d
     template: src=local.repo.j2 dest=/etc/yum.repos.d/local.repo
+
+  - name: clean yum repo
+    shell: yum clean all
+
