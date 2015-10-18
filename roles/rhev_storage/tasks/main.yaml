@@ -17,6 +17,7 @@
   - include: ./nfs.yaml
   - include: ./iscsi.yaml
   - include: ./lvm.yaml
+  - include: ./apache_repos.yaml
 
   - include: ./clean.yaml
 
