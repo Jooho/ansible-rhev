@@ -24,3 +24,9 @@
   
   - debug: msg="{{ hostvars['hypervisor1.example.com']}}"
     tags: test
+
+
+  - included: ../rhev-manager/config.yaml
+
+  - role:
+   { name: webserver-repos }

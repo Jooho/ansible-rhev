@@ -1,6 +1,9 @@
 
   - include: ./disk.yaml
+  - include: ./network.yaml
   - include: ./copy_iso.yaml
+  - include: ./services.yaml
+  - include: ./lvm.yaml
 
   - name: Check async copy.sh status
     async_status: jid={{ iso_copy.ansible_job_id }}
@@ -12,11 +15,9 @@
 
   - include: ./temp_repos.yaml
   - include: ./selinux.yaml
-  - include: ./network.yaml
-  - include: ./services.yaml
   - include: ./nfs.yaml
   - include: ./iscsi.yaml
-  - include: ./lvm.yaml
+# To-Do : if subscription_manager is used, it should be omitted. In order to choose one of options, we should add here if conditional statement.
   - include: ./apache_repos.yaml
 
   - include: ./clean.yaml
